@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Home page
+{% endblock %}
+
+{% block content %}
+    <!-- Add a <style> tag to add CSS rules directly to your HTML template -->
+    <style>
+        form {
+        margin: 20px auto;
+        max-width: 600px;
+        padding: 20px;
+        background-color: #f8f8f8;
+        border-radius: 5px;
+        box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+    
+        input[type="text"] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+        border: none;
+        border-bottom: 2px solid #ccc;
+        font-size: 16px;
+        }
+    
+        input[type="submit"] {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        }
+    
+        input[type="submit"]:hover {
+        background-color: #3e8e41;
+        }
+    
+        label {
+        font-size: 18px;
+        font-weight: bold;
+        display: block;
+        margin-bottom: 10px;
+        }
+    
+        span.error {
+        color: red;
+        }
+        .short-url-section {
+            margin-top: 20px;
+        }
+
+        .short-url-section label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .short-url-section .input-group {
+            display: flex;
+            flex-wrap: nowrap;
+            align-items: stretch;
+        }
+
+        .short-url-section .form-control {
+            flex-grow: 1;
+            margin-right: 5px;
+            font-size: 16px;
+        }
+
+        .short-url-section .copy-btn {
+            width: 100px;
+            font-size: 16px;
+            margin-left: 5px;
+        }
+
+        .short-url-section .copy-btn:hover {
+            background-color: #f1f1f1;
+        }
+           
+    </style>
+    
+    <!-- Modify your HTML form to use CSS classes -->
+    <form method="post" action="{{url_for('index')}}">
+        <label>Original URL:</label>
+        <div>
+        <input type="text" name="orginal_url" placeholder="Add a URL" value="{{orginal_url}}">
+        {% if error_message %}
+            <span class="error">{{ error_message }}</span>
+        {% endif %}
+        </div>
+        <br>
+        <div>
+        <input type="submit" name="submit" value="Shorten URL">
+        </div>
+    
+    
+        {% if whole_url %}
+        <div class="short-url-section">
+            <label>Short URL:</label>
+            <div class="input-group">
+                <input  class="form-control" value="{{ whole_url}}" readonly>
+                <button class="btn btn-outline-secondary copy-btn" type="button" onclick="copyToClipboard('{{ whole_url }}')">Copy</button>
+            </div>
+        </div>
+        {% endif %}
+
+    </form>
+        
+    
+    <script>
+    function copyToClipboard(text) {
+        var textarea = document.createElement('textarea');
+        textarea.value = text;
+        document.body.appendChild(textarea);
+        textarea.select();
+        document.execCommand('copy');
+        document.body.removeChild(textarea);
+    }
+    </script>
+  
+{% endblock %}
